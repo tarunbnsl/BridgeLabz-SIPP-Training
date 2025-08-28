@@ -1,0 +1,50 @@
+START
+
+DECLARE Stack undoStack   // To store previous states of text
+DECLARE String text = ""  // Current text in the editor
+
+FUNCTION type(newText)
+    // Save current state before changing
+    PUSH undoStack, text  
+    text = text + newText
+END FUNCTION
+
+FUNCTION delete(n)
+    // Save current state before changing
+    PUSH undoStack, text  
+    text = SUBSTRING(text, 0, LENGTH(text) - n)
+END FUNCTION
+
+FUNCTION undo()
+    IF NOT EMPTY(undoStack) THEN
+        text = POP(undoStack)
+    ELSE
+        PRINT "Nothing to undo"
+    END IF
+END FUNCTION
+
+FUNCTION display()
+    PRINT "Current Text: " + text
+END FUNCTION
+
+
+// Example Flow
+type("Hello")
+display()          // Output: Hello
+
+type(" World")
+display()          // Output: Hello World
+
+delete(5)
+display()          // Output: Hello
+
+undo()
+display()          // Output: Hello World
+
+undo()
+display()          // Output: Hello
+
+undo()
+display()          // Output: (empty text)
+
+END

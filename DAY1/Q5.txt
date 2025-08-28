@@ -1,0 +1,42 @@
+START
+
+DECLARE HashMap<String, Integer> studentScores
+
+FUNCTION addStudent(name, score)
+    PUT (studentScores, name, score)
+END FUNCTION
+
+FUNCTION displayAll()
+    FOR EACH (entry IN studentScores)
+        PRINT entry.key + " -> " + entry.value
+    END FOR
+END FUNCTION
+
+FUNCTION getTopScorer()
+    // Using stream operations (conceptual)
+    topEntry = studentScores
+                  .entrySet()
+                  .stream()
+                  .max( comparator by value )
+                  .get()
+
+    PRINT "Top Scorer: " + topEntry.key + " with " + topEntry.value
+END FUNCTION
+
+
+// Example Flow
+addStudent("Alice", 85)
+addStudent("Bob", 92)
+addStudent("Charlie", 78)
+addStudent("David", 95)
+
+displayAll()
+// Alice -> 85
+// Bob -> 92
+// Charlie -> 78
+// David -> 95
+
+getTopScorer()
+// Top Scorer: David with 95
+
+END

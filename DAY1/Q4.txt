@@ -1,0 +1,50 @@
+START
+
+DECLARE Queue normalQueue       // Stores normal customers
+DECLARE Queue emergencyQueue    // Stores emergency customers
+
+FUNCTION enqueue(customer, type)
+    IF type == "emergency" THEN
+        ENQUEUE emergencyQueue, customer
+    ELSE
+        ENQUEUE normalQueue, customer
+    END IF
+END FUNCTION
+
+FUNCTION dequeue()
+    IF NOT EMPTY(emergencyQueue) THEN
+        customer = DEQUEUE emergencyQueue
+        PRINT "Serving Emergency Customer: " + customer
+    ELSE IF NOT EMPTY(normalQueue) THEN
+        customer = DEQUEUE normalQueue
+        PRINT "Serving Normal Customer: " + customer
+    ELSE
+        PRINT "No customers waiting"
+    END IF
+END FUNCTION
+
+FUNCTION displayQueues()
+    PRINT "Emergency Queue: " + LIST(emergencyQueue)
+    PRINT "Normal Queue: " + LIST(normalQueue)
+END FUNCTION
+
+
+// Example Flow
+enqueue("C1", "normal")
+enqueue("C2", "normal")
+enqueue("C3", "emergency")
+enqueue("C4", "normal")
+enqueue("C5", "emergency")
+
+displayQueues()
+// Emergency Queue: [C3, C5]
+// Normal Queue: [C1, C2, C4]
+
+dequeue()   // Serving Emergency Customer: C3
+dequeue()   // Serving Emergency Customer: C5
+dequeue()   // Serving Normal Customer: C1
+dequeue()   // Serving Normal Customer: C2
+dequeue()   // Serving Normal Customer: C4
+dequeue()   // No customers waiting
+
+END
