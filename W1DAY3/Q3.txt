@@ -1,0 +1,85 @@
+START
+
+CLASS Patient
+    ATTRIBUTE id
+    ATTRIBUTE name
+    ATTRIBUTE age
+    ATTRIBUTE disease
+
+    CONSTRUCTOR(id, name, age, disease)
+        this.id = id
+        this.name = name
+        this.age = age
+        this.disease = disease
+    END CONSTRUCTOR
+
+    METHOD display()
+        PRINT "Patient ID: " + id
+        PRINT " Name: " + name
+        PRINT " Age: " + age
+        PRINT " Disease: " + disease
+    END METHOD
+END CLASS
+
+
+DECLARE HashMap<Integer, Patient> patientRecords
+
+
+FUNCTION addPatient(patient)
+    PUT (patientRecords, patient.id, patient)
+    PRINT "Patient Added: " + patient.name
+END FUNCTION
+
+
+FUNCTION getPatient(id)
+    IF patientRecords CONTAINS id THEN
+        patient = patientRecords[id]
+        patient.display()
+    ELSE
+        PRINT "No patient found with ID: " + id
+    END IF
+END FUNCTION
+
+
+FUNCTION updatePatient(id, newDisease)
+    IF patientRecords CONTAINS id THEN
+        patientRecords[id].disease = newDisease
+        PRINT "Patient " + id + " updated with disease: " + newDisease
+    ELSE
+        PRINT "No patient found with ID: " + id
+    END IF
+END FUNCTION
+
+
+FUNCTION deletePatient(id)
+    IF patientRecords CONTAINS id THEN
+        REMOVE patientRecords[id]
+        PRINT "Patient " + id + " deleted."
+    ELSE
+        PRINT "No patient found with ID: " + id
+    END IF
+END FUNCTION
+
+
+// Example Flow
+DECLARE p1 = NEW Patient(101, "Alice", 30, "Flu")
+DECLARE p2 = NEW Patient(102, "Bob", 45, "Diabetes")
+DECLARE p3 = NEW Patient(103, "Charlie", 25, "Fever")
+
+addPatient(p1)
+addPatient(p2)
+addPatient(p3)
+
+getPatient(102)
+// Output: Bob's details
+
+updatePatient(103, "Recovered")
+// Updates Charlie's record
+
+deletePatient(101)
+// Removes Alice from records
+
+getPatient(101)
+// Output: No patient found
+
+END

@@ -1,0 +1,52 @@
+START
+
+CLASS Book
+    ATTRIBUTE title
+    ATTRIBUTE author
+    ATTRIBUTE year
+    ATTRIBUTE rating
+
+    CONSTRUCTOR(title, author, year, rating)
+        this.title = title
+        this.author = author
+        this.year = year
+        this.rating = rating
+    END CONSTRUCTOR
+
+    METHOD display()
+        PRINT title + " by " + author + " (" + year + ") - Rating: " + rating
+    END METHOD
+END CLASS
+
+
+DECLARE List<Book> books
+
+
+FUNCTION filterBooks()
+    // Stream filter with lambda
+    filtered = books.stream()
+                    .filter(b -> b.year > 2015)
+                    .filter(b -> b.rating > 4.5)
+                    .collect(toList)
+
+    PRINT "Books published after 2015 with rating > 4.5:"
+    FOR EACH book IN filtered
+        book.display()
+    END FOR
+END FUNCTION
+
+
+// Example Flow
+ADD NEW Book("Java 8 in Action", "Smith", 2016, 4.7) TO books
+ADD NEW Book("Old Java Book", "Doe", 2010, 4.8) TO books
+ADD NEW Book("Spring Boot Mastery", "Johnson", 2019, 4.9) TO books
+ADD NEW Book("Data Structures", "Brown", 2018, 4.3) TO books
+
+filterBooks()
+
+// Expected Output:
+// Books published after 2015 with rating > 4.5:
+// Java 8 in Action by Smith (2016) - Rating: 4.7
+// Spring Boot Mastery by Johnson (2019) - Rating: 4.9
+
+END

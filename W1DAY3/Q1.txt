@@ -1,0 +1,89 @@
+START
+
+CLASS Customer
+    ATTRIBUTE name
+    ATTRIBUTE address
+
+    CONSTRUCTOR(name, address)
+        this.name = name
+        this.address = address
+    END CONSTRUCTOR
+END CLASS
+
+
+CLASS Restaurant
+    ATTRIBUTE name
+    ATTRIBUTE location
+
+    CONSTRUCTOR(name, location)
+        this.name = name
+        this.location = location
+    END CONSTRUCTOR
+END CLASS
+
+
+CLASS DeliveryBoy
+    ATTRIBUTE name
+    ATTRIBUTE phone
+
+    CONSTRUCTOR(name, phone)
+        this.name = name
+        this.phone = phone
+    END CONSTRUCTOR
+END CLASS
+
+
+CLASS Order
+    ATTRIBUTE customer : Customer
+    ATTRIBUTE restaurant : Restaurant
+    ATTRIBUTE deliveryBoy : DeliveryBoy
+    ATTRIBUTE foodItem
+    ATTRIBUTE status
+
+    CONSTRUCTOR(customer, restaurant, deliveryBoy, foodItem)
+        this.customer = customer
+        this.restaurant = restaurant
+        this.deliveryBoy = deliveryBoy
+        this.foodItem = foodItem
+        this.status = "Placed"
+    END CONSTRUCTOR
+
+    METHOD updateStatus(newStatus)
+        this.status = newStatus
+        PRINT "Order Status Updated: " + newStatus
+    END METHOD
+
+    METHOD displayOrderDetails()
+        PRINT "Order Details:"
+        PRINT " Customer: " + customer.name + " (" + customer.address + ")"
+        PRINT " Restaurant: " + restaurant.name + " (" + restaurant.location + ")"
+        PRINT " Delivery Boy: " + deliveryBoy.name + " (" + deliveryBoy.phone + ")"
+        PRINT " Food Item: " + foodItem
+        PRINT " Status: " + status
+    END METHOD
+END CLASS
+
+
+// Example Flow
+DECLARE cust = NEW Customer("Alice", "123 Street")
+DECLARE rest = NEW Restaurant("PizzaHub", "Downtown")
+DECLARE boy = NEW DeliveryBoy("John", "9876543210")
+
+DECLARE order1 = NEW Order(cust, rest, boy, "Cheese Pizza")
+
+order1.displayOrderDetails()
+order1.updateStatus("Out for Delivery")
+order1.updateStatus("Delivered")
+
+// Expected Output:
+// Order Details:
+//  Customer: Alice (123 Street)
+//  Restaurant: PizzaHub (Downtown)
+//  Delivery Boy: John (9876543210)
+//  Food Item: Cheese Pizza
+//  Status: Placed
+//
+// Order Status Updated: Out for Delivery
+// Order Status Updated: Delivered
+
+END

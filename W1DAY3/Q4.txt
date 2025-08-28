@@ -1,0 +1,80 @@
+START
+
+// Maze Representation
+// 0 = open path
+// 1 = wall/blocked
+// S = start
+// E = end
+
+DECLARE 2D ARRAY maze[M][N]
+DECLARE 2D ARRAY visited[M][N] = false
+
+
+FUNCTION solveMaze(x, y)
+    // Base Case: reached destination
+    IF maze[x][y] == 'E' THEN
+        PRINT "Reached the Exit at (" + x + "," + y + ")"
+        RETURN TRUE
+    END IF
+
+    // Check boundaries and validity
+    IF x < 0 OR y < 0 OR x >= M OR y >= N THEN
+        RETURN FALSE
+    END IF
+    IF maze[x][y] == 1 OR visited[x][y] == TRUE THEN
+        RETURN FALSE
+    END IF
+
+    // Mark as visited
+    visited[x][y] = TRUE
+
+    // Move Right
+    IF solveMaze(x, y+1) == TRUE THEN
+        PRINT "Move Right"
+        RETURN TRUE
+    END IF
+
+    // Move Down
+    IF solveMaze(x+1, y) == TRUE THEN
+        PRINT "Move Down"
+        RETURN TRUE
+    END IF
+
+    // Move Left
+    IF solveMaze(x, y-1) == TRUE THEN
+        PRINT "Move Left"
+        RETURN TRUE
+    END IF
+
+    // Move Up
+    IF solveMaze(x-1, y) == TRUE THEN
+        PRINT "Move Up"
+        RETURN TRUE
+    END IF
+
+    // Backtrack if no path found
+    visited[x][y] = FALSE
+    RETURN FALSE
+END FUNCTION
+
+
+// Example Flow
+DECLARE maze = [
+   [S, 0, 1, 0],
+   [1, 0, 1, 0],
+   [0, 0, 0, 0],
+   [1, 1, 1, E]
+]
+
+CALL solveMaze(0,0)
+
+// Expected Output (one possible path):
+// Move Right
+// Move Down
+// Move Down
+// Move Right
+// Move Right
+// Move Down
+// Reached the Exit!
+
+END

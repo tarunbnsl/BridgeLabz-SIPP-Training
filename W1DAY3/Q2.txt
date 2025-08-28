@@ -1,0 +1,105 @@
+START
+
+INTERFACE Searchable
+    METHOD search(keyword)
+END INTERFACE
+
+INTERFACE Printable
+    METHOD print()
+END INTERFACE
+
+
+ABSTRACT CLASS MedicalReport IMPLEMENTS Searchable, Printable
+    ATTRIBUTE patientName
+    ATTRIBUTE reportDate
+
+    CONSTRUCTOR(patientName, reportDate)
+        this.patientName = patientName
+        this.reportDate = reportDate
+    END CONSTRUCTOR
+END CLASS
+
+
+CLASS LabReport EXTENDS MedicalReport
+    ATTRIBUTE testType
+    ATTRIBUTE result
+
+    CONSTRUCTOR(patientName, reportDate, testType, result)
+        CALL super(patientName, reportDate)
+        this.testType = testType
+        this.result = result
+    END CONSTRUCTOR
+
+    METHOD search(keyword)
+        IF testType CONTAINS keyword OR result CONTAINS keyword THEN
+            RETURN TRUE
+        ELSE
+            RETURN FALSE
+        END IF
+    END METHOD
+
+    METHOD print()
+        PRINT "Lab Report for " + patientName + " (" + reportDate + ")"
+        PRINT " Test: " + testType + " | Result: " + result
+    END METHOD
+END CLASS
+
+
+CLASS Prescription EXTENDS MedicalReport
+    ATTRIBUTE medicineList
+
+    CONSTRUCTOR(patientName, reportDate, medicineList)
+        CALL super(patientName, reportDate)
+        this.medicineList = medicineList
+    END CONSTRUCTOR
+
+    METHOD search(keyword)
+        FOR EACH med IN medicineList
+            IF med CONTAINS keyword THEN
+                RETURN TRUE
+            END IF
+        END FOR
+        RETURN FALSE
+    END METHOD
+
+    METHOD print()
+        PRINT "Prescription for " + patientName + " (" + reportDate + ")"
+        PRINT " Medicines: " + medicineList
+    END METHOD
+END CLASS
+
+
+CLASS MedicalRecordManager
+    ATTRIBUTE reports : List<MedicalReport>
+
+    METHOD addReport(report)
+        ADD report TO reports
+    END METHOD
+
+    METHOD searchReports(keyword)
+        PRINT "Searching reports for keyword: " + keyword
+        FOR EACH report IN reports
+            IF report.search(keyword) THEN
+                report.print()
+            END IF
+        END FOR
+    END METHOD
+END CLASS
+
+
+// Example Flow
+DECLARE manager = NEW MedicalRecordManager()
+
+DECLARE r1 = NEW LabReport("Alice", "2025-08-28", "Blood Test", "Normal")
+DECLARE r2 = NEW Prescription("Bob", "2025-08-20", ["Paracetamol", "Vitamin C"])
+
+manager.addReport(r1)
+manager.addReport(r2)
+
+manager.searchReports("Blood")
+// → Will print Alice's lab report
+
+manager.searchReports("Vitamin")
+// → Will print Bob's prescription
+
+END
