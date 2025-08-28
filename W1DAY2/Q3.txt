@@ -1,0 +1,34 @@
+START
+
+DECLARE ARRAY timeSlots[SIZE]   // Circular array to store time per question
+DECLARE INTEGER front = 0
+DECLARE INTEGER rear = -1
+DECLARE INTEGER count = 0
+DECLARE INTEGER SIZE = N   // total questions
+
+FUNCTION addTimeSlot(time)
+    IF count == SIZE THEN
+        PRINT "All slots filled!"
+    ELSE
+        rear = (rear + 1) MOD SIZE
+        timeSlots[rear] = time
+        count = count + 1
+    END IF
+END FUNCTION
+
+FUNCTION getNextSlot()
+    IF count == 0 THEN
+        PRINT "No more questions."
+        RETURN -1
+    ELSE
+        time = timeSlots[front]
+        front = (front + 1) MOD SIZE
+        count = count - 1
+        RETURN time
+    END IF
+END FUNCTION
+
+
+FUNCTION runQuiz()
+    WHILE count > 0
+        slotTime = getNextS

@@ -1,0 +1,70 @@
+START
+
+CLASS Doctor
+    ATTRIBUTE name
+    ATTRIBUTE specialization
+
+    CONSTRUCTOR(name, specialization)
+        this.name = name
+        this.specialization = specialization
+    END CONSTRUCTOR
+END CLASS
+
+
+DECLARE Map<String, List<Doctor>> departmentMap
+
+
+FUNCTION addDoctor(department, doctor)
+    IF departmentMap DOES NOT CONTAIN department THEN
+        departmentMap[department] = NEW List<Doctor>()
+    END IF
+    ADD doctor TO departmentMap[department]
+END FUNCTION
+
+
+FUNCTION displayAll()
+    FOR EACH department IN departmentMap.keys
+        PRINT "Department: " + department
+        FOR EACH doctor IN departmentMap[department]
+            PRINT "   Doctor: " + doctor.name + " (" + doctor.specialization + ")"
+        END FOR
+    END FOR
+END FUNCTION
+
+
+FUNCTION filterBySpecialization(specialization)
+    PRINT "Doctors with specialization: " + specialization
+    FOR EACH department IN departmentMap.keys
+        FOR EACH doctor IN departmentMap[department]
+            IF doctor.specialization == specialization THEN
+                PRINT "   " + doctor.name + " (" + department + ")"
+            END IF
+        END FOR
+    END FOR
+END FUNCTION
+
+
+// Example Flow
+addDoctor("Cardiology", NEW Doctor("Dr. A", "Heart Specialist"))
+addDoctor("Cardiology", NEW Doctor("Dr. B", "Heart Specialist"))
+addDoctor("Neurology", NEW Doctor("Dr. C", "Brain Specialist"))
+addDoctor("Orthopedics", NEW Doctor("Dr. D", "Bone Specialist"))
+
+displayAll()
+
+filterBySpecialization("Heart Specialist")
+
+// Expected Output:
+// Department: Cardiology
+//    Doctor: Dr. A (Heart Specialist)
+//    Doctor: Dr. B (Heart Specialist)
+// Department: Neurology
+//    Doctor: Dr. C (Brain Specialist)
+// Department: Orthopedics
+//    Doctor: Dr. D (Bone Specialist)
+//
+// Doctors with specialization: Heart Specialist
+//    Dr. A (Cardiology)
+//    Dr. B (Cardiology)
+
+END

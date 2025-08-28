@@ -1,0 +1,55 @@
+START
+
+ENUM TrafficLight
+    RED
+    GREEN
+    YELLOW
+END ENUM
+
+
+CLASS TrafficSignal
+    ATTRIBUTE currentLight : TrafficLight
+    ATTRIBUTE timer : Integer
+
+    CONSTRUCTOR()
+        currentLight = RED
+        timer = 0
+    END CONSTRUCTOR
+
+    METHOD switchLight()
+        IF currentLight == RED THEN
+            currentLight = GREEN
+            timer = 60     // RED → GREEN after 60 seconds
+        ELSE IF currentLight == GREEN THEN
+            currentLight = YELLOW
+            timer = 5      // GREEN → YELLOW after 5 seconds
+        ELSE IF currentLight == YELLOW THEN
+            currentLight = RED
+            timer = 55     // YELLOW → RED after 55 seconds
+        END IF
+    END METHOD
+
+    METHOD runSimulation(totalTime)
+        timePassed = 0
+        WHILE timePassed < totalTime
+            PRINT "Light: " + currentLight + " | Duration: " + timer + "s"
+            WAIT(timer)        // Simulate waiting for duration
+            timePassed = timePassed + timer
+            switchLight()
+        END WHILE
+    END METHOD
+END CLASS
+
+
+// Example Flow
+DECLARE signal = NEW TrafficSignal()
+signal.runSimulation(130)
+
+
+// Expected output (with timing simulation):
+// Light: RED    | Duration: 60s
+// Light: GREEN  | Duration: 60s
+// Light: YELLOW | Duration: 5s
+// Light: RED    | Duration: 55s
+
+END

@@ -1,0 +1,63 @@
+START
+
+CLASS Job
+    ATTRIBUTE id
+    ATTRIBUTE deadline
+    ATTRIBUTE processingTime
+
+    CONSTRUCTOR(id, deadline, processingTime)
+        this.id = id
+        this.deadline = deadline
+        this.processingTime = processingTime
+    END CONSTRUCTOR
+END CLASS
+
+
+CLASS JobComparator
+    // Priority Rule: Earlier deadline first; 
+    // If same deadline → shorter processing time first
+    METHOD compare(job1, job2)
+        IF job1.deadline != job2.deadline THEN
+            RETURN job1.deadline - job2.deadline
+        ELSE
+            RETURN job1.processingTime - job2.processingTime
+        END IF
+    END METHOD
+END CLASS
+
+
+CLASS JobScheduler
+    ATTRIBUTE priorityQueue   // Min-Heap with JobComparator
+
+    METHOD addJob(job)
+        INSERT job INTO priorityQueue
+    END METHOD
+
+    METHOD processJobs()
+        WHILE NOT EMPTY(priorityQueue)
+            job = REMOVE_MIN(priorityQueue)
+            PRINT "Executing Job " + job.id +
+                  " | Deadline: " + job.deadline +
+                  " | Processing Time: " + job.processingTime
+            WAIT(job.processingTime)   // simulate execution
+        END WHILE
+    END METHOD
+END CLASS
+
+
+// Example Flow
+DECLARE scheduler = NEW JobScheduler()
+
+scheduler.addJob(NEW Job("J1", 5, 3))
+scheduler.addJob(NEW Job("J2", 2, 4))
+scheduler.addJob(NEW Job("J3", 1, 2))
+scheduler.addJob(NEW Job("J4", 2, 1))
+
+scheduler.processJobs()
+
+// Expected Execution Order:
+// J3 → J4 → J2 → J1
+// (since J3 has earliest deadline, 
+// then J4 over J2 due to shorter processing time)
+
+END

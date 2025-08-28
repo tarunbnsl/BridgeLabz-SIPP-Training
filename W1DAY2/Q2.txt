@@ -1,0 +1,52 @@
+START
+
+ABSTRACT CLASS Crop
+    ATTRIBUTE name
+
+    CONSTRUCTOR(name)
+        this.name = name
+    END CONSTRUCTOR
+
+    ABSTRACT METHOD waterRequirement()
+    ABSTRACT METHOD harvest()
+END CLASS
+
+
+CLASS Rice EXTENDS Crop
+    CONSTRUCTOR()
+        CALL super("Rice")
+    END CONSTRUCTOR
+
+    METHOD waterRequirement()
+        PRINT name + " requires high water (5000 liters/acre)."
+    END METHOD
+
+    METHOD harvest()
+        PRINT name + " is ready for harvesting after 120 days."
+    END METHOD
+END CLASS
+
+
+CLASS Wheat EXTENDS Crop
+    CONSTRUCTOR()
+        CALL super("Wheat")
+    END CONSTRUCTOR
+
+    METHOD waterRequirement()
+        PRINT name + " requires moderate water (2500 liters/acre)."
+    END METHOD
+
+    METHOD harvest()
+        PRINT name + " is ready for harvesting after 90 days."
+    END METHOD
+END CLASS
+
+
+// Example Flow
+DECLARE crop1 = NEW Rice()
+DECLARE crop2 = NEW Wheat()
+
+crop1.waterRequirement()
+crop1.harvest()
+
+crop2.
