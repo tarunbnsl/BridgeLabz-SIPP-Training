@@ -1,0 +1,22 @@
+START 
+     CLASS member
+     ATTRIBUTE name 
+     ATTRIBUTE id
+     ATTRIBUTE membershipdate
+
+     METHOD validity(inputname, inputid, inputdate)
+       SET  this.name-inputname
+       SET  this.id-inputid
+       SET  this.date-inputdate
+   
+       GET  currentdate
+
+        IF 
+          currentdate > this.date THEN
+            OUTPUT "your membership is not valid"
+        ELSE
+           OUTPUT "your membership is valid"
+        ENDIF
+   ENDMETHOD
+ ENDCLASS
+END

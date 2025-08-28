@@ -1,0 +1,76 @@
+START
+
+CLASS Pet
+    ATTRIBUTE name
+    ATTRIBUTE age
+    ATTRIBUTE breed
+
+    CONSTRUCTOR Pet(inputName, inputAge, inputBreed)
+        SET this.name = inputName
+        SET this.age = inputAge
+        SET this.breed = inputBreed
+    END CONSTRUCTOR
+
+    METHOD showDetails()
+        OUTPUT "Name: " + this.name
+        OUTPUT "Age: " + this.age
+        OUTPUT "Breed: " + this.breed
+    END METHOD
+END CLASS
+
+
+CLASS Dog EXTENDS Pet
+    ATTRIBUTE isTrained
+
+    CONSTRUCTOR Dog(inputName, inputAge, inputBreed, inputTrained)
+        CALL super(inputName, inputAge, inputBreed)
+        SET this.isTrained = inputTrained
+    END CONSTRUCTOR
+
+    METHOD showDetails()
+        CALL super.showDetails()
+        OUTPUT "Trained: " + this.isTrained
+    END METHOD
+END CLASS
+
+
+CLASS Cat EXTENDS Pet
+    ATTRIBUTE isIndoor
+
+    CONSTRUCTOR Cat(inputName, inputAge, inputBreed, inputIndoor)
+        CALL super(inputName, inputAge, inputBreed)
+        SET this.isIndoor = inputIndoor
+    END CONSTRUCTOR
+
+    METHOD showDetails()
+        CALL super.showDetails()
+        OUTPUT "Indoor Cat: " + this.isIndoor
+    END METHOD
+END CLASS
+
+
+CLASS Bird EXTENDS Pet
+    ATTRIBUTE canTalk
+
+    CONSTRUCTOR Bird(inputName, inputAge, inputBreed, inputCanTalk)
+        CALL super(inputName, inputAge, inputBreed)
+        SET this.canTalk = inputCanTalk
+    END CONSTRUCTOR
+
+    METHOD showDetails()
+        CALL super.showDetails()
+        OUTPUT "Can Talk: " + this.canTalk
+    END METHOD
+END CLASS
+
+
+// MAIN PROGRAM
+OBJECT dog1 = NEW Dog("Bruno", 3, "Labrador", TRUE)
+OBJECT cat1 = NEW Cat("Kitty", 2, "Persian", TRUE)
+OBJECT bird1 = NEW Bird("Mithu", 1, "Parrot", TRUE)
+
+CALL dog1.showDetails()
+CALL cat1.showDetails()
+CALL bird1.showDetails()
+
+END
